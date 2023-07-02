@@ -1,0 +1,66 @@
+{
+    "extends": [
+        "@rocketseat/eslint-config/node",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "plugins": [
+        "import"
+    ],
+    "rules": {
+        "no-useless-constructor": "off",
+        "import/named": "off",
+        "import/no-unresolved": "error",
+        "sort-imports": [
+            "error",
+            {
+                "ignoreCase": true,
+                "ignoreDeclarationSort": true
+            }
+        ],
+        "import/order": [
+            1,
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    [
+                        "sibling",
+                        "parent"
+                    ],
+                    "index",
+                    "unknown"
+                ],
+                "newlines-between": "always",
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                }
+            }
+        ]
+    },
+    "settings": {
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "paths": "./tsconfig.json"
+            },
+            "node": {
+                "extensions": [
+                    ".js",
+                    ".jsx",
+                    ".ts",
+                    ".tsx"
+                ],
+                "moduleDirectory": [
+                    "node_modules",
+                    "src"
+                ]
+            }
+        }
+    }
+}
