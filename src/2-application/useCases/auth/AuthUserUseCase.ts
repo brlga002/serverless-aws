@@ -4,7 +4,7 @@ import { ApplicationError } from '0-core/application/result/ApplicationError'
 import { ApplicationResult } from '0-core/application/result/ApplicationResult'
 import { BaseUseCase } from '0-core/application/useCases/BaseUseCase'
 import { Either, left, right } from '0-core/domain/result/Either'
-import { TokenService, UserTokenJwt } from '1-domain/services/TokenService'
+import { OutputSing, TokenService } from '1-domain/services/TokenService'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
 import { USER_APPLICATION_TOKENS } from '2-application/tokens/userApplicationTokens'
 
@@ -14,7 +14,7 @@ type InputAuthUserUseCase = {
 }
 
 type OutputAuthUserUseCase = Promise<
-  Either<ApplicationError, ApplicationResult<UserTokenJwt>>
+  Either<ApplicationError, ApplicationResult<OutputSing>>
 >
 
 @injectable()
@@ -29,7 +29,6 @@ export class AuthUserUseCase
   ) {}
 
   async execute(input: InputAuthUserUseCase): OutputAuthUserUseCase {
-    console.log('input', input)
     const user = await this.usersRepository.findByEmail(input.email)
     if (!user) return left(ApplicationError.notFound())
 
@@ -37,7 +36,13 @@ export class AuthUserUseCase
     if (result.isLeft())
       return left(ApplicationError.notFound(`The password is incorrect.`))
 
-    const token = this.tokenService.sign({ userId: user.props.id })
+    const token = this.tokenService.sign({
+      userId: user.props.id,
+      name: user.props.name,
+      roles: user.props.roles,
+      tenantId: user.props.tenantId ?? 'TODO MASTER TENANT',
+    })
+
     if (token.isLeft())
       return left(
         ApplicationError.internalServerError(`Error generating token.`),

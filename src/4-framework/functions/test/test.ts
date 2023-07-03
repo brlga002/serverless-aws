@@ -1,8 +1,10 @@
+import 'reflect-metadata'
 import { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { sign } from 'jsonwebtoken'
 
+import { Role } from '0-core/domain/entities/Role'
 import { UserEntity } from '1-domain/entities/User/User'
 import { middleware } from '4-framework/middleware'
+import { JwtTokenService } from '4-framework/services/JwtTokenService'
 
 export async function main(event: APIGatewayProxyEventV2) {
   const result = UserEntity.create(event.body as any)
@@ -11,17 +13,18 @@ export async function main(event: APIGatewayProxyEventV2) {
     console.log(await result.value.setHashPassword('123456'))
   }
 
-  const teste = sign(
-    {
-      // data: 'foobar',
-    },
-    'secret',
-    { expiresIn: 60 * 60 },
-  )
+  const response = new JwtTokenService()
+
+  const teste = response.sign({
+    roles: [Role.ADMIN],
+    tenantId: 'nGNmgQtLlBt8UHABiqw-z',
+    userId: 'nGNmgQtLlBt8UHABiqw-y',
+    name: 'gabriel',
+  })
 
   return {
     statusCode: 200,
-    body: JSON.stringify(teste),
+    body: JSON.stringify(teste.value),
   }
 }
 
