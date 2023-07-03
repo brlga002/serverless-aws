@@ -1,12 +1,19 @@
-import { UserAuthToken } from '0-core/domain/entities/TokenJwt'
+import { Role } from '0-core/domain/entities/Role'
 import { Either } from '0-core/domain/result/Either'
 
-export interface UserTokenJwt {
-  token: string
+export type InputSign = {
+  tenantId: string
   userId: string
+  name: string
+  roles: Role[]
+}
+
+export type OutputSing = {
+  token: string
+  name: string
 }
 
 export interface TokenService {
-  sign: (data: { userId: string }) => Either<Error, UserTokenJwt>
-  verify: (token: UserAuthToken) => Either<Error, boolean>
+  sign: (data: InputSign) => Either<Error, OutputSing>
+  verify: (token: string) => Either<Error, InputSign>
 }

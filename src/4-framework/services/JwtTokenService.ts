@@ -1,26 +1,31 @@
 import { error } from 'console'
 
 import { injectable } from 'inversify'
-import { sign as jwtSing } from 'jsonwebtoken'
+import { sign as jwtSing, verify as jwtVerify } from 'jsonwebtoken'
 
-import { UserAuthToken  } from '0-core/domain/entities/TokenJwt'
 import { Either, left, right } from '0-core/domain/result/Either'
-import { TokenService, UserTokenJwt } from '1-domain/services/TokenService'
+import {
+  InputSign,
+  OutputSing,
+  TokenService,
+} from '1-domain/services/TokenService'
 
 @injectable()
 export class JwtTokenService implements TokenService {
-  sign(data: { userId: string }): Either<Error, UserTokenJwt> {
+  sign(data: InputSign): Either<Error, OutputSing> {
     try {
       const token = jwtSing(data, 'secret', { expiresIn: 60 * 60 })
-      return right({
-        ...data,
-        token,
-      })
+      return right({ token, name: data.name })
     } catch (error) {}
     return left(error as unknown as Error)
   }
 
-  verify(token: UserAuthToken ): Either<Error, boolean> {
-    throw new Error('Not implemented')
+  verify(token: string): Either<Error, InputSign> {
+    try {
+      const decoded = jwtVerify(token, 'secret')
+      return right(decoded as InputSign)
+    } catch (err) {
+      return left(err as unknown as Error)
+    }
   }
 }
