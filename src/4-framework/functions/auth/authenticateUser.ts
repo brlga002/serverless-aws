@@ -13,7 +13,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     USER_TOKENS.AuthUserController,
   )
 
-  const input = ValidateUserRequest.authUser(event.body as {})
+  const input = ValidateUserRequest.authUser(event.body)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.authenticateUser(input.value)

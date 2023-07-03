@@ -5,7 +5,7 @@ import { Either, left, right } from '0-core/domain/result/Either'
 
 export function validateInputWithSchema<T>(
   schema: z.ZodType,
-  props: any,
+  props: unknown,
 ): Either<ApplicationError, T> {
   const result = schema.safeParse(props)
   if (!result.success) {

@@ -78,6 +78,10 @@ export class ValidateUserRequest {
     )
   }
 
+  static deleteUser(input?: unknown) {
+    return validateInputWithSchema<GetEntitySchema>(getEntitySchema, input)
+  }
+
   static authUser(input?: unknown) {
     return validateInputWithSchema<AuthUserSchema>(authUserSchema, input)
   }

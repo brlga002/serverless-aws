@@ -13,8 +13,8 @@ export async function main(event: APIGatewayProxyEventV2) {
   const controller = container.get<UserController>(USER_TOKENS.UserController)
 
   const input = ValidateUserRequest.updateUser({
-    id: event.pathParameters?.id!,
-    ...(event.body as {}),
+    ...event.pathParameters,
+    ...(event.body as unknown as object),
   })
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
