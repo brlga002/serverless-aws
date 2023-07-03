@@ -8,6 +8,8 @@ const schema = createMongooseSchema<UserDto>({
   name: { type: String },
   email: { unique: true, type: String },
   password: { type: String },
+  tenantId: { type: mongoose.Types.ObjectId },
+  role: [String],
 })
 
 export const UserMongooseModel = mongoose.model('User', schema, 'Users')
