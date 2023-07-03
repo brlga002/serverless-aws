@@ -41,16 +41,17 @@ export abstract class Entity<T = unknown> {
   }
 
   toJSON(): T & EntityDto {
-    const { id, ...props } = this.props
     return {
       id: this.id,
-      ...props,
+      ...this.exportFields(),
       createdAt: this.createdAt,
       createdBy: this.createdBy,
       updatedAt: this.updatedAt,
       updatedBy: this.updatedAt,
     } as T & EntityDto
   }
+
+  abstract exportFields(): Omit<T, keyof EntityDto>
 
   selfValidateEntity<TOutput>(schema: z.ZodType): Either<Error, TOutput> {
     const validateEntity = schema.safeParse(this.toJSON())
