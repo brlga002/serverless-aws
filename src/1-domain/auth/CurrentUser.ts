@@ -1,7 +1,7 @@
 import { Role } from '0-core/domain/entities/Role'
 
 export interface CurrentUser {
-  userId: string
-  tenantId: string
+  readonly userId: string
+  readonly tenantId: string
   role: Role
 }
