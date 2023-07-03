@@ -10,5 +10,7 @@ export type OutputCreateUseCase<T> = Promise<
 
 export type InputCreateUseCase<T> = T
 
-export interface CreateUseCase<T>
-  extends BaseUseCase<InputCreateUseCase<T>, OutputCreateUseCase<T>> {}
+export type CreateUseCase<T> = BaseUseCase<
+  InputCreateUseCase<T>,
+  OutputCreateUseCase<T>
+>

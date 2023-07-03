@@ -12,5 +12,4 @@ export type InputDeleteUseCase = {
   id: string
 }
 
-export interface DeleteUseCase
-  extends BaseUseCase<InputDeleteUseCase, OutputDeleteUseCase> {}
+export type DeleteUseCase = BaseUseCase<InputDeleteUseCase, OutputDeleteUseCase>

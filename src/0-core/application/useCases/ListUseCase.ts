@@ -28,5 +28,4 @@ export type InputListUseCase = {
   limit?: number
 }
 
-export interface ListUseCase<T>
-  extends BaseUseCase<InputListUseCase, OutputListUseCase<T>> {}
+export type ListUseCase<T> = BaseUseCase<InputListUseCase, OutputListUseCase<T>>

@@ -12,5 +12,4 @@ export type InputGetUseCase = {
   id: string
 }
 
-export interface GetUseCase<T>
-  extends BaseUseCase<InputGetUseCase, OutputGetUseCase<T>> {}
+export type GetUseCase<T> = BaseUseCase<InputGetUseCase, OutputGetUseCase<T>>

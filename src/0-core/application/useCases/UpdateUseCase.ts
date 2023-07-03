@@ -10,5 +10,7 @@ export type OutputUpdateUseCase<T> = Promise<
 
 export type InputUpdateUseCase<T> = { id: string } & T
 
-export interface UpdateUseCase<T>
-  extends BaseUseCase<InputUpdateUseCase<T>, OutputUpdateUseCase<T>> {}
+export type UpdateUseCase<T> = BaseUseCase<
+  InputUpdateUseCase<T>,
+  OutputUpdateUseCase<T>
+>
