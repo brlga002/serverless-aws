@@ -8,13 +8,15 @@ const userProps = {
   email: z.string().email(),
   password: z.string(),
   tenantId: z.nullable(entityProps.id),
-  role: z.enum([Role.ADMIN, Role.CLIENT]),
+  roles: z.array(z.enum([Role.ADMIN, Role.CLIENT])),
 }
 
 export const newUserSchema = z.object({
   name: userProps.name,
   email: userProps.email,
   password: userProps.password,
+  tenantId: userProps.tenantId,
+  roles: userProps.roles,
 })
 
 export const updateUserSchema = z.object({
