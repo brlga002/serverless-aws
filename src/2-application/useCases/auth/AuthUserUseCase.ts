@@ -39,7 +39,7 @@ export class AuthUserUseCase
     const token = this.tokenService.sign({
       userId: user.props.id,
       name: user.props.name,
-      roles: user.props.roles,
+      role: user.props.role,
       tenantId: user.props.tenantId ?? 'TODO MASTER TENANT',
     })
 

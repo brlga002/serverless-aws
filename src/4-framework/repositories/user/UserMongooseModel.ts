@@ -9,7 +9,7 @@ const schema = createMongooseSchema<UserDto>({
   email: { unique: true, type: String },
   password: { type: String },
   tenantId: { type: mongoose.Types.ObjectId },
-  roles: [String],
+  role: { type: String },
 })
 
 export const UserMongooseModel = mongoose.model('User', schema, 'Users')

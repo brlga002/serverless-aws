@@ -12,9 +12,11 @@ import {
 
 @injectable()
 export class JwtTokenService implements TokenService {
+  protected secret = String(process.env.JWT_APPLICATION_KEY)
+
   sign(data: InputSign): Either<Error, OutputSing> {
     try {
-      const token = jwtSing(data, 'secret', { expiresIn: 60 * 60 })
+      const token = jwtSing(data, this.secret, { expiresIn: '2h' })
       return right({ token, name: data.name })
     } catch (error) {}
     return left(error as unknown as Error)
@@ -22,7 +24,7 @@ export class JwtTokenService implements TokenService {
 
   verify(token: string): Either<Error, InputSign> {
     try {
-      const decoded = jwtVerify(token, 'secret')
+      const decoded = jwtVerify(token, this.secret)
       return right(decoded as InputSign)
     } catch (err) {
       return left(err as unknown as Error)
