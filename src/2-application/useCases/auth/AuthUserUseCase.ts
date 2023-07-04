@@ -6,7 +6,7 @@ import { BaseUseCase } from '0-core/application/useCases/BaseUseCase'
 import { Either, left, right } from '0-core/domain/result/Either'
 import { OutputSing, TokenService } from '1-domain/services/TokenService'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
-import { USER_APPLICATION_TOKENS } from '2-application/tokens/userApplicationTokens'
+import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
 type InputAuthUserUseCase = {
   password: string
@@ -22,9 +22,9 @@ export class AuthUserUseCase
   implements BaseUseCase<InputAuthUserUseCase, OutputAuthUserUseCase>
 {
   constructor(
-    @inject(USER_APPLICATION_TOKENS.UsersRepository)
+    @inject(APPLICATION_TOKENS.UsersRepository)
     private readonly usersRepository: UsersRepository,
-    @inject(USER_APPLICATION_TOKENS.TokenService)
+    @inject(APPLICATION_TOKENS.TokenService)
     private readonly tokenService: TokenService,
   ) {}
 
