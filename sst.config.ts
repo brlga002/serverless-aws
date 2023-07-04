@@ -1,5 +1,7 @@
 import { SSTConfig } from 'sst'
 
+import { ApiGatewayStack } from 'stacks/ApiGatewayStack'
+
 import { UserStack } from './stacks/UserStack'
 
 export default {
@@ -10,6 +12,6 @@ export default {
     }
   },
   stacks(app) {
-    app.stack(UserStack)
+    app.stack(ApiGatewayStack).stack(UserStack)
   },
 } satisfies SSTConfig
