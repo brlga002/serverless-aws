@@ -1,7 +1,7 @@
 import { compare, hash } from 'bcryptjs'
 import { z } from 'zod'
 
-import { Entity } from '0-core/domain/entities/Entity'
+import { Entity, EntityDto } from '0-core/domain/entities/Entity'
 import { Either, left, right } from '0-core/domain/result/Either'
 
 import { newUserSchema, updateUserSchema, UserSchema } from './User.schema'
@@ -67,5 +67,15 @@ export class UserEntity extends Entity<UserDto> {
   async setHashPassword(value: string) {
     const saltRounds = 10
     this.props.password = await hash(value, saltRounds)
+  }
+
+  exportFields(): Omit<UserDto, keyof EntityDto> {
+    return {
+      name: this.props.name,
+      email: this.props.email,
+      password: this.props.password,
+      tenantId: this.props.tenantId,
+      role: this.props.role,
+    }
   }
 }

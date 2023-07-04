@@ -16,7 +16,7 @@ export async function main(event: APIGatewayProxyEventV2) {
   const response = new JwtTokenService()
 
   const teste = response.sign({
-    roles: [Role.ADMIN],
+    role: Role.ADMIN,
     tenantId: 'nGNmgQtLlBt8UHABiqw-z',
     userId: 'nGNmgQtLlBt8UHABiqw-y',
     name: 'gabriel',

@@ -5,7 +5,7 @@ export type InputSign = {
   tenantId: string
   userId: string
   name: string
-  roles: Role[]
+  role: Role
 }
 
 export type OutputSing = {

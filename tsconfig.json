@@ -14,8 +14,8 @@
       "2-application/*": [
         "src/2-application/*"
       ],
-      "3-controller/*": [
-        "src/3-controller/*"
+      "3-interfaces/*": [
+        "src/3-interfaces/*"
       ],
       "4-framework/*": [
         "src/4-framework/*"

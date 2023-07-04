@@ -11,6 +11,7 @@
         "import"
     ],
     "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off",
         "no-useless-constructor": "off",
         "import/named": "off",
         "import/no-unresolved": "error",
