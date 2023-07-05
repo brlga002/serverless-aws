@@ -7,7 +7,7 @@ import {
 import { ApplicationError } from '0-core/application/result/ApplicationError'
 import { CurrentUser } from '1-domain/auth/CurrentUser'
 import { InputSign } from '1-domain/services/TokenService'
-import { USER_TOKENS } from '3-interfaces/tokens/userTokens'
+import { INTERFACE_TOKENS } from '3-interfaces/tokens/interfaceTokens'
 import { ConcreteCurrentUser } from '4-framework/auth/ConcreteCurrentUser'
 import { container } from '4-framework/ioc/container'
 
@@ -45,7 +45,7 @@ export const authCurrentUser = (): middy.MiddlewareObj<Event> => {
           authorizer.role,
         )
         container
-          .bind<CurrentUser>(USER_TOKENS.CurrentUser)
+          .bind<CurrentUser>(INTERFACE_TOKENS.CurrentUser)
           .toConstantValue(user)
       }
     },

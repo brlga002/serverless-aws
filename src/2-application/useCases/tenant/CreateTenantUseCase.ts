@@ -8,26 +8,30 @@ import {
   OutputCreateUseCase,
 } from '0-core/application/useCases/CreateUseCase'
 import { left, right } from '0-core/domain/result/Either'
-import { NewUserDto, UserDto, UserEntity } from '1-domain/entities/User/User'
-import { UsersRepository } from '2-application/repositories/UsersRepository'
+import {
+  NewTenantDto,
+  Tenant,
+  TenantDto,
+} from '1-domain/entities/Tenant/Tenant'
+import { TenantsRepository } from '2-application/repositories/TenantsRepository'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
 @injectable()
-export class CreateUserUseCase implements CreateUseCase<UserDto> {
+export class CreateTenantUseCase implements CreateUseCase<TenantDto> {
   constructor(
-    @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    @inject(APPLICATION_TOKENS.TenantsRepository)
+    private readonly tenantsRepository: TenantsRepository,
   ) {}
 
   async execute(
-    input: InputCreateUseCase<NewUserDto>,
-  ): OutputCreateUseCase<UserDto> {
-    const result = UserEntity.create(input)
+    input: InputCreateUseCase<NewTenantDto>,
+  ): OutputCreateUseCase<TenantDto> {
+    const result = Tenant.create(input)
     if (result.isLeft())
       return left(ApplicationError.unprocessableEntity(result.value.message))
 
     const user = result.value
-    await this.UsersRepository.create(user)
+    await this.tenantsRepository.create(user)
 
     return right(ApplicationResult.created(user.toJSON()))
   }
