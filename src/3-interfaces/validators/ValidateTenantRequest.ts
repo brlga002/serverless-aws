@@ -7,13 +7,8 @@ import {
   tenantProps,
 } from '1-domain/entities/Tenant/Tenant.schema'
 
-import {
-  getEntitySchema,
-  GetEntitySchema,
-  listEntitiesSchema,
-  ListEntitiesSchema,
-} from './entitySchemas'
 import { validateInputWithSchema } from './validateInputWithSchema'
+import { ValidateRequest } from './ValidateRequest'
 
 const updateTenantSchema = z.object({
   id: entityProps.id,
@@ -22,30 +17,15 @@ const updateTenantSchema = z.object({
 
 type UpdateTenantSchema = z.infer<typeof updateTenantSchema>
 
-export class ValidateTenantRequest {
-  static createTenant(input?: unknown) {
+export class ValidateTenantRequest extends ValidateRequest {
+  static createEntity(input?: unknown) {
     return validateInputWithSchema<NewTenantDto>(newTenantSchema, input)
   }
 
-  static getTenant(input?: unknown) {
-    return validateInputWithSchema<GetEntitySchema>(getEntitySchema, input)
-  }
-
-  static listTenant(input?: unknown) {
-    return validateInputWithSchema<ListEntitiesSchema>(
-      listEntitiesSchema,
-      input,
-    )
-  }
-
-  static updateTenant(input?: unknown) {
+  static updateEntity(input?: unknown) {
     return validateInputWithSchema<UpdateTenantSchema>(
       updateTenantSchema,
       input,
     )
-  }
-
-  static deleteTenant(input?: unknown) {
-    return validateInputWithSchema<GetEntitySchema>(getEntitySchema, input)
   }
 }

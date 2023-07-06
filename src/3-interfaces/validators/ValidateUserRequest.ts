@@ -3,13 +3,8 @@ import { z } from 'zod'
 import { NewUserDto } from '1-domain/entities/User/User'
 import { newUserSchema } from '1-domain/entities/User/User.schema'
 
-import {
-  getEntitySchema,
-  GetEntitySchema,
-  listEntitiesSchema,
-  ListEntitiesSchema,
-} from './entitySchemas'
 import { validateInputWithSchema } from './validateInputWithSchema'
+import { ValidateRequest } from './ValidateRequest'
 
 const addressSchema = z.object({
   zipCode: z.string(),
@@ -51,23 +46,12 @@ type UpdateUserPasswordSchema = z.infer<typeof updateUserPasswordSchema>
 
 type AuthUserSchema = z.infer<typeof authUserSchema>
 
-export class ValidateUserRequest {
-  static createUser(input?: unknown) {
+export class ValidateUserRequest extends ValidateRequest {
+  static createEntity(input?: unknown) {
     return validateInputWithSchema<NewUserDto>(newUserSchema, input)
   }
 
-  static getUser(input?: unknown) {
-    return validateInputWithSchema<GetEntitySchema>(getEntitySchema, input)
-  }
-
-  static listUser(input?: unknown) {
-    return validateInputWithSchema<ListEntitiesSchema>(
-      listEntitiesSchema,
-      input,
-    )
-  }
-
-  static updateUser(input?: unknown) {
+  static updateEntity(input?: unknown) {
     return validateInputWithSchema<UpdateUserSchema>(updateUserSchema, input)
   }
 
@@ -76,10 +60,6 @@ export class ValidateUserRequest {
       updateUserPasswordSchema,
       input,
     )
-  }
-
-  static deleteUser(input?: unknown) {
-    return validateInputWithSchema<GetEntitySchema>(getEntitySchema, input)
   }
 
   static authUser(input?: unknown) {

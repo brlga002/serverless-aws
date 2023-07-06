@@ -15,7 +15,7 @@ export async function main(event: APIGatewayProxyEventV2) {
   )
 
   console.log(JSON.stringify(event.queryStringParameters))
-  const input = ValidateTenantRequest.listTenant(
+  const input = ValidateTenantRequest.listEntities(
     event.queryStringParameters ?? {},
   )
   console.log(JSON.stringify(input, null, 2))

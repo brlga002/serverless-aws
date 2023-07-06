@@ -14,7 +14,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.UserController,
   )
 
-  const input = ValidateUserRequest.listUser(event.queryStringParameters)
+  const input = ValidateUserRequest.listEntities(event.queryStringParameters)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.listEntities(input.value)

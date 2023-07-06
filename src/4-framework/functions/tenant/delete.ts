@@ -14,7 +14,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.TenantController,
   )
 
-  const input = ValidateTenantRequest.deleteTenant(event.pathParameters)
+  const input = ValidateTenantRequest.deleteEntity(event.pathParameters)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.deleteEntity(input.value)

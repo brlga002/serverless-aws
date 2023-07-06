@@ -14,7 +14,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.TenantController,
   )
 
-  const input = ValidateTenantRequest.updateTenant({
+  const input = ValidateTenantRequest.updateEntity({
     ...event.pathParameters,
     ...(event.body as unknown as object),
   })

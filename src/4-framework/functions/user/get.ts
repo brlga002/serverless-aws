@@ -10,9 +10,11 @@ import { UserController } from 'src/3-interfaces/controllers/UserController'
 import { ValidateUserRequest } from 'src/3-interfaces/validators/ValidateUserRequest'
 
 export async function main(event: APIGatewayProxyEventV2) {
-  const controller = container.get<UserController>(INTERFACE_TOKENS.UserController)
+  const controller = container.get<UserController>(
+    INTERFACE_TOKENS.UserController,
+  )
 
-  const input = ValidateUserRequest.getUser(event.pathParameters)
+  const input = ValidateUserRequest.getEntity(event.pathParameters)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.getEntity(input.value)

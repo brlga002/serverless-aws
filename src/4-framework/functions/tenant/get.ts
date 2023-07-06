@@ -14,7 +14,7 @@ export async function main(event: APIGatewayProxyEventV2) {
     INTERFACE_TOKENS.TenantController,
   )
 
-  const input = ValidateTenantRequest.getTenant(event.pathParameters)
+  const input = ValidateTenantRequest.getEntity(event.pathParameters)
   if (input.isLeft()) return HttpResponse.makeBadRequest(input.value)
 
   const response = await controller.getEntity(input.value)
