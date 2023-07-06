@@ -10,12 +10,12 @@ import {
 import { left, right } from '0-core/domain/result/Either'
 import { UpdateUserDto, UserDto } from '1-domain/entities/User/User'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
-import { USER_APPLICATION_TOKENS } from '2-application/tokens/userApplicationTokens'
+import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
 @injectable()
 export class UpdateUserUseCase implements UpdateUseCase<UpdateUserDto> {
   constructor(
-    @inject(USER_APPLICATION_TOKENS.UsersRepository)
+    @inject(APPLICATION_TOKENS.UsersRepository)
     private readonly UsersRepository: UsersRepository,
   ) {}
 

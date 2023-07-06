@@ -8,21 +8,21 @@ import {
   OutputListUseCase,
 } from '0-core/application/useCases/ListUseCase'
 import { left, right } from '0-core/domain/result/Either'
-import { UserDto } from '1-domain/entities/User/User'
-import { UsersRepository } from '2-application/repositories/UsersRepository'
+import { TenantDto } from '1-domain/entities/Tenant/Tenant'
+import { TenantsRepository } from '2-application/repositories/TenantsRepository'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
 @injectable()
-export class ListUsersUseCase implements ListUseCase<UserDto> {
+export class ListTenantsUseCase implements ListUseCase<TenantDto> {
   constructor(
-    @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    @inject(APPLICATION_TOKENS.TenantsRepository)
+    private readonly tenantsRepository: TenantsRepository,
   ) {}
 
-  async execute(input: InputListUseCase): OutputListUseCase<UserDto> {
+  async execute(input: InputListUseCase): OutputListUseCase<TenantDto> {
     try {
-      const users = await this.UsersRepository.list(input)
-      return right(ApplicationResult.success(users))
+      const tenants = await this.tenantsRepository.list(input)
+      return right(ApplicationResult.success(tenants))
     } catch (error) {
       return left(ApplicationError.badRequest())
     }

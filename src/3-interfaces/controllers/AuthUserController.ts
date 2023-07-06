@@ -9,13 +9,13 @@ import {
   InputUpdateUserPassword,
 } from '1-domain/controllers/AuthUserRoutesController'
 import { OutputSing } from '1-domain/services/TokenService'
-import { USER_APPLICATION_TOKENS } from '2-application/tokens/userApplicationTokens'
+import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 import { AuthUserUseCase } from '2-application/useCases/auth/AuthUserUseCase'
 
 @injectable()
 export class AuthUserController implements AuthUserRoutesController {
   constructor(
-    @inject(USER_APPLICATION_TOKENS.AuthUserUseCase)
+    @inject(APPLICATION_TOKENS.AuthUserUseCase)
     private readonly authUserUseCase: AuthUserUseCase,
   ) {}
 
