@@ -20,8 +20,8 @@ export class GetTenantUseCase implements GetUseCase<TenantDto> {
   ) {}
 
   async execute(input: InputGetUseCase): OutputGetUseCase<TenantDto> {
-    const user = await this.tenantsRepository.getById(input.id)
-    if (!user) return left(ApplicationError.notFound())
-    return right(ApplicationResult.success(user.toJSON()))
+    const tenant = await this.tenantsRepository.getById(input.id)
+    if (!tenant) return left(ApplicationError.notFound())
+    return right(ApplicationResult.success(tenant.toJSON()))
   }
 }

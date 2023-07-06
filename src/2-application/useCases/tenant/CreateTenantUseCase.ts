@@ -26,13 +26,21 @@ export class CreateTenantUseCase implements CreateUseCase<TenantDto> {
   async execute(
     input: InputCreateUseCase<NewTenantDto>,
   ): OutputCreateUseCase<TenantDto> {
+    const tenant = await this.tenantsRepository.findOne({ email: input.email })
+    if (tenant)
+      return left(
+        ApplicationError.badRequest(
+          `The email: ${input.email}  is already in use by another Tenant.`,
+        ),
+      )
+
     const result = Tenant.create(input)
     if (result.isLeft())
       return left(ApplicationError.unprocessableEntity(result.value.message))
 
-    const user = result.value
-    await this.tenantsRepository.create(user)
+    const newTenant = result.value
+    await this.tenantsRepository.create(newTenant)
 
-    return right(ApplicationResult.created(user.toJSON()))
+    return right(ApplicationResult.created(newTenant.toJSON()))
   }
 }

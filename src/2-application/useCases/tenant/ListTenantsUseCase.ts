@@ -21,8 +21,8 @@ export class ListTenantsUseCase implements ListUseCase<TenantDto> {
 
   async execute(input: InputListUseCase): OutputListUseCase<TenantDto> {
     try {
-      const users = await this.tenantsRepository.list(input)
-      return right(ApplicationResult.success(users))
+      const tenants = await this.tenantsRepository.list(input)
+      return right(ApplicationResult.success(tenants))
     } catch (error) {
       return left(ApplicationError.badRequest())
     }
