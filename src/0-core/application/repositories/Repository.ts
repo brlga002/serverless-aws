@@ -12,11 +12,12 @@ export type OutputListRepository<T> = {
   total: number
 }
 
-export interface Repository<T extends Entity, TDto = any> {
-  create: (entity: T) => Promise<void>
-  list: (input: InputListRepository) => Promise<OutputListRepository<TDto>>
-  getById: (id: string) => Promise<T | null>
-  update: (id: string, entity: Entity) => Promise<T | null>
-  delete: (id: string) => Promise<boolean>
-  exists: (filter: Record<string, unknown>) => Promise<boolean>
+export interface Repository<T extends Entity, TDto = unknown> {
+  create(entity: T): Promise<void>
+  delete(id: string): Promise<boolean>
+  exists(filter: Record<string, unknown>): Promise<boolean>
+  findOne(data: Record<string, unknown>): Promise<T | null>
+  getById(id: string): Promise<T | null>
+  list(input: InputListRepository): Promise<OutputListRepository<TDto>>
+  update(id: string, entity: Entity): Promise<T | null>
 }

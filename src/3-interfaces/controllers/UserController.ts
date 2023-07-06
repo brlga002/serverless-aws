@@ -20,7 +20,7 @@ import {
 import { left, right } from '0-core/domain/result/Either'
 import { UserRoutesController } from '1-domain/controllers/UserRoutesController'
 import { NewUserDto, UpdateUserDto, UserDto } from '1-domain/entities/User/User'
-import { USER_APPLICATION_TOKENS } from '2-application/tokens/userApplicationTokens'
+import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 import { CreateUserUseCase } from '2-application/useCases/user/CreateUserUseCase'
 import { DeleteUserUseCase } from '2-application/useCases/user/DeleteUserUseCase'
 import { GetUserUseCase } from '2-application/useCases/user/GetUserUseCase'
@@ -30,15 +30,15 @@ import { UpdateUserUseCase } from '2-application/useCases/user/UpdateUserUseCase
 @injectable()
 export class UserController implements UserRoutesController {
   constructor(
-    @inject(USER_APPLICATION_TOKENS.CreateUserUseCase)
+    @inject(APPLICATION_TOKENS.CreateUserUseCase)
     private readonly createUserUseCase: CreateUserUseCase,
-    @inject(USER_APPLICATION_TOKENS.DeleteUserUseCase)
+    @inject(APPLICATION_TOKENS.DeleteUserUseCase)
     private readonly deleteUserUseCase: DeleteUserUseCase,
-    @inject(USER_APPLICATION_TOKENS.GetUserUseCase)
+    @inject(APPLICATION_TOKENS.GetUserUseCase)
     private readonly getUserUseCase: GetUserUseCase,
-    @inject(USER_APPLICATION_TOKENS.ListUsersUseCase)
+    @inject(APPLICATION_TOKENS.ListUsersUseCase)
     private readonly listUsersUseCase: ListUsersUseCase,
-    @inject(USER_APPLICATION_TOKENS.UpdateUserUseCase)
+    @inject(APPLICATION_TOKENS.UpdateUserUseCase)
     private readonly updateUserUseCase: UpdateUserUseCase,
   ) {}
 

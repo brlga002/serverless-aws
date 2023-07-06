@@ -1,6 +1,6 @@
-import { Api, StackContext } from 'sst/constructs'
+import { StackContext, use } from 'sst/constructs'
 
-import { JwtAuthorizer } from './JwtAuthorizer'
+import { ApiGatewayStack } from './ApiGatewayStack'
 
 export const OTHERS_ROUTES = {
   'POST /test-app/{id}': 'src/4-framework/functions/test/test.handler',
@@ -15,24 +15,11 @@ export const USER_ROUTES = {
 }
 
 export function UserStack({ stack }: StackContext) {
-  const api = new Api(stack, 'PmocApiGateway', {
-    routes: {
-      ...USER_ROUTES,
-      ...OTHERS_ROUTES,
-    },
-    authorizers: {
-      JwtAuthorizer: JwtAuthorizer(stack),
-    },
-    defaults: {
-      authorizer: 'JwtAuthorizer',
-    },
-  })
+  const { api } = use(ApiGatewayStack)
 
   api.addRoutes(stack, {
-    'POST /authenticate': {
-      function: 'src/4-framework/functions/auth/authenticateUser.handler',
-      authorizer: 'none',
-    },
+    ...OTHERS_ROUTES,
+    ...USER_ROUTES,
   })
 
   stack.addOutputs({

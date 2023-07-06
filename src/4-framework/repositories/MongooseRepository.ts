@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from 'mongoose'
 
 import {
@@ -30,10 +31,30 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     await model.save()
   }
 
+  async delete(id: string): Promise<boolean> {
+    await this.connect()
+    const result = await this._model.deleteOne({ id })
+    return result.acknowledged
+  }
+
   async exists(filter: Record<string, unknown>): Promise<boolean> {
     await this.connect()
     const document = await this._model.exists(filter)
     return !!document
+  }
+
+  async findOne(data: Record<string, unknown>): Promise<T | null> {
+    await this.connect()
+    const result = await this._model.findOne({ data })
+    if (!result) return null
+    return this.createClassInstance(result)
+  }
+
+  async getById(id: string): Promise<T | null> {
+    await this.connect()
+    const result = await this._model.findOne({ id })
+    if (!result) return null
+    return this.createClassInstance(result)
   }
 
   async list(input: InputListRepository): Promise<OutputListRepository<TDto>> {
@@ -43,6 +64,11 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     const skip = offset > 0 ? offset * limit : 0
     const result = await this._model.find().skip(skip).limit(limit)
 
+    const data = result.map((record) => {
+      const instance = this.deserialize(record)
+      return instance
+    })
+
     // Not send instances
     // const instances = result.map((record) => {
     //   const instance = this.createClassInstance(record)
@@ -50,18 +76,11 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     // })
 
     return {
-      data: result,
+      data,
       total: count,
       offset,
       limit,
     }
-  }
-
-  async getById(id: string): Promise<T | null> {
-    await this.connect()
-    const result = await this._model.findOne({ id })
-    if (!result) return null
-    return this.createClassInstance(result)
   }
 
   async update(id: string, entity: Entity): Promise<T | null> {
@@ -76,12 +95,6 @@ export abstract class MongooseRepository<T extends Entity, TDto>
       this.deserialize(result),
     )
     return instance
-  }
-
-  async delete(id: string): Promise<boolean> {
-    await this.connect()
-    const result = await this._model.deleteOne({ id })
-    return result.acknowledged
   }
 
   protected createClassInstance(record: any): any {

@@ -8,18 +8,18 @@ import {
   OutputDeleteUseCase,
 } from '0-core/application/useCases/DeleteUseCase'
 import { left, right } from '0-core/domain/result/Either'
-import { UsersRepository } from '2-application/repositories/UsersRepository'
+import { TenantsRepository } from '2-application/repositories/TenantsRepository'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
 @injectable()
-export class DeleteUserUseCase implements DeleteUseCase {
+export class DeleteTenantUseCase implements DeleteUseCase {
   constructor(
-    @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    @inject(APPLICATION_TOKENS.TenantsRepository)
+    private readonly tenantsRepository: TenantsRepository,
   ) {}
 
   async execute(input: InputDeleteUseCase): OutputDeleteUseCase {
-    const result = await this.UsersRepository.delete(input.id)
+    const result = await this.tenantsRepository.delete(input.id)
     if (!result) return left(ApplicationError.internalServerError())
     return right(ApplicationResult.success(result))
   }
