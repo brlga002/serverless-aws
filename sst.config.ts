@@ -1,6 +1,7 @@
 import { SSTConfig } from 'sst'
 
 import { ApiGatewayStack } from 'stacks/ApiGatewayStack'
+import { SwaggerStack } from 'stacks/SwaggerStack'
 import { TenantStack } from 'stacks/TenantStack'
 
 import { UserStack } from './stacks/UserStack'
@@ -22,6 +23,10 @@ export default {
       JWT_APPLICATION_KEY: process.env.JWT_APPLICATION_KEY!,
     })
 
-    app.stack(ApiGatewayStack).stack(UserStack).stack(TenantStack)
+    app
+      .stack(ApiGatewayStack)
+      .stack(UserStack)
+      .stack(TenantStack)
+      .stack(SwaggerStack)
   },
 } satisfies SSTConfig
