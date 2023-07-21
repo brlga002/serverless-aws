@@ -2,6 +2,7 @@ import { DOMAIN_TOKENS } from '1-domain/domainTokens'
 
 const AUTH_TOKENS = {
   AuthUserUseCase: Symbol.for('AuthUserUseCase'),
+  UpdateUserPasswordUseCase: Symbol.for('UpdateUserPasswordUseCase'),
 }
 
 const USERS_TOKENS = {
