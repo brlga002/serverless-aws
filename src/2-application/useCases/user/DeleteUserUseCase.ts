@@ -15,12 +15,21 @@ import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 export class DeleteUserUseCase implements DeleteUseCase {
   constructor(
     @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(input: InputDeleteUseCase): OutputDeleteUseCase {
-    const result = await this.UsersRepository.delete(input.id)
-    if (!result) return left(ApplicationError.internalServerError())
-    return right(ApplicationResult.success(result))
+    const user = await this.usersRepository.getById(input.id)
+    if (!user)
+      return left(
+        ApplicationError.notFound(`User with id '${input.id}' was not found.`),
+      )
+
+    const result = await this.usersRepository.delete(input.id)
+    if (!result)
+      return left(
+        ApplicationError.internalServerError('Failed to delete User.'),
+      )
+    return right(ApplicationResult.noContent())
   }
 }

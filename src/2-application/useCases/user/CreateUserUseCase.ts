@@ -16,19 +16,27 @@ import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 export class CreateUserUseCase implements CreateUseCase<UserDto> {
   constructor(
     @inject(APPLICATION_TOKENS.UsersRepository)
-    private readonly UsersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async execute(
     input: InputCreateUseCase<NewUserDto>,
   ): OutputCreateUseCase<UserDto> {
-    const result = UserEntity.create(input)
+    const existedEmail = await this.usersRepository.existedEmail(input.email)
+    if (existedEmail)
+      return left(
+        ApplicationError.badRequest(
+          `The email: ${input.email}  is already in use by another User.`,
+        ),
+      )
+
+    const result = await UserEntity.create(input)
     if (result.isLeft())
       return left(ApplicationError.unprocessableEntity(result.value.message))
 
     const user = result.value
-    await this.UsersRepository.create(user)
+    await this.usersRepository.create(user)
 
-    return right(ApplicationResult.created(user.toJSON()))
+    return right(ApplicationResult.created(user))
   }
 }

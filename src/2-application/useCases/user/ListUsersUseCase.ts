@@ -24,7 +24,7 @@ export class ListUsersUseCase implements ListUseCase<UserDto> {
       const users = await this.UsersRepository.list(input)
       return right(ApplicationResult.success(users))
     } catch (error) {
-      return left(ApplicationError.badRequest())
+      return left(ApplicationError.badRequest('Failed to list Users.'))
     }
   }
 }
