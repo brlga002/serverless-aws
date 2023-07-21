@@ -7,6 +7,12 @@ export type ResponseHandler = {
   body: string
 }
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+}
+
 export class HttpResponse {
   protected constructor(
     private resultUseCase: Either<ApplicationError, ApplicationResult>,
@@ -23,11 +29,13 @@ export class HttpResponse {
       return {
         statusCode: 400,
         body: JSON.stringify(result.message),
+        ...headers,
       }
 
     return {
       statusCode: result.errorCode,
       body: JSON.stringify(result.error),
+      ...headers,
     }
   }
 
@@ -36,11 +44,13 @@ export class HttpResponse {
       return {
         statusCode: this.resultUseCase.value.errorCode,
         body: JSON.stringify(this.resultUseCase.value.error),
+        ...headers,
       }
 
     return {
       statusCode: this.resultUseCase.value.successCode,
       body: JSON.stringify(this.resultUseCase.value.content),
+      ...headers,
     }
   }
 }
