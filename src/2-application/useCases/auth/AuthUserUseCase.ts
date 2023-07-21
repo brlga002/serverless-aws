@@ -3,23 +3,18 @@ import { inject, injectable } from 'inversify'
 import { ApplicationError } from '0-core/application/result/ApplicationError'
 import { ApplicationResult } from '0-core/application/result/ApplicationResult'
 import { BaseUseCase } from '0-core/application/useCases/BaseUseCase'
-import { Either, left, right } from '0-core/domain/result/Either'
-import { OutputSing, TokenService } from '1-domain/services/TokenService'
+import { left, right } from '0-core/domain/result/Either'
+import {
+  InputAuthenticateUser,
+  OutputAuthenticateUser,
+} from '1-domain/controllers/AuthUserRoutesController'
+import { TokenService } from '1-domain/services/TokenService'
 import { UsersRepository } from '2-application/repositories/UsersRepository'
 import { APPLICATION_TOKENS } from '2-application/tokens/applicationTokens'
 
-type InputAuthUserUseCase = {
-  password: string
-  email: string
-}
-
-type OutputAuthUserUseCase = Promise<
-  Either<ApplicationError, ApplicationResult<OutputSing>>
->
-
 @injectable()
 export class AuthUserUseCase
-  implements BaseUseCase<InputAuthUserUseCase, OutputAuthUserUseCase>
+  implements BaseUseCase<InputAuthenticateUser, OutputAuthenticateUser>
 {
   constructor(
     @inject(APPLICATION_TOKENS.UsersRepository)
@@ -28,9 +23,12 @@ export class AuthUserUseCase
     private readonly tokenService: TokenService,
   ) {}
 
-  async execute(input: InputAuthUserUseCase): OutputAuthUserUseCase {
+  async execute(input: InputAuthenticateUser): OutputAuthenticateUser {
     const user = await this.usersRepository.findByEmail(input.email)
-    if (!user) return left(ApplicationError.notFound())
+    if (!user)
+      return left(
+        ApplicationError.notFound(`The email: ${input.email} not found.`),
+      )
 
     const result = await user.validatePassword(input.password)
     if (result.isLeft())
