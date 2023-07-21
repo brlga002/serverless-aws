@@ -19,15 +19,14 @@ interface Authorizer extends APIGatewayEventRequestContextV2 {
 
 type Event = APIGatewayProxyEventV2WithRequestContext<Authorizer>
 
-const PUBLIC_ROUTES = ['authenticate']
+const PUBLIC_ROUTES = ['POST /authenticate/login', 'POST /users']
 
 const ensureCurrentUser = (
   request: middy.Request<Event>,
 ): InputSign | null | never => {
   const authorizer = request.event.requestContext?.authorizer?.lambda ?? null
-  const rawPath = request.event.rawPath
-  const [, route] = rawPath.split('/')
 
+  const route = request.event.routeKey
   if (!authorizer && !PUBLIC_ROUTES.includes(route))
     throw ApplicationError.unauthorized()
 

@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 
 import { AuthUserUseCase } from '2-application/useCases/auth/AuthUserUseCase'
+import { UpdateUserPasswordUseCase } from '2-application/useCases/auth/UpdateUserPasswordUseCase'
 import { CreateTenantUseCase } from '2-application/useCases/tenant/CreateTenantUseCase'
 import { DeleteTenantUseCase } from '2-application/useCases/tenant/DeleteTenantUseCase'
 import { GetTenantUseCase } from '2-application/useCases/tenant/GetTenantUseCase'
@@ -32,6 +33,9 @@ container.bind(INTERFACE_TOKENS.CreateUserUseCase).to(CreateUserUseCase)
 container.bind(INTERFACE_TOKENS.UserController).to(UserController)
 //
 container.bind(INTERFACE_TOKENS.AuthUserUseCase).to(AuthUserUseCase)
+container
+  .bind(INTERFACE_TOKENS.UpdateUserPasswordUseCase)
+  .to(UpdateUserPasswordUseCase)
 container.bind(INTERFACE_TOKENS.AuthUserController).to(AuthUserController)
 container.bind(INTERFACE_TOKENS.TokenService).to(JwtTokenService)
 //
