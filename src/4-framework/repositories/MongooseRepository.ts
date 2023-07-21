@@ -27,13 +27,13 @@ export abstract class MongooseRepository<T extends Entity, TDto>
 
   async create(entity: Entity): Promise<void> {
     await this.connect()
-    const model = new this._model(entity.toJSON())
+    const model = new this._model(this.serialize(entity))
     await model.save()
   }
 
   async delete(id: string): Promise<boolean> {
     await this.connect()
-    const result = await this._model.deleteOne({ id })
+    const result = await this._model.deleteOne({ _id: id })
     return result.acknowledged
   }
 
@@ -47,14 +47,14 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     await this.connect()
     const result = await this._model.findOne({ data })
     if (!result) return null
-    return this.createClassInstance(result)
+    return this.createClassInstance<T>(result)
   }
 
   async getById(id: string): Promise<T | null> {
     await this.connect()
-    const result = await this._model.findOne({ id })
+    const result = await this._model.findById(id)
     if (!result) return null
-    return this.createClassInstance(result)
+    return this.createClassInstance<T>(result)
   }
 
   async list(input: InputListRepository): Promise<OutputListRepository<TDto>> {
@@ -65,15 +65,9 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     const result = await this._model.find().skip(skip).limit(limit)
 
     const data = result.map((record) => {
-      const instance = this.deserialize(record)
-      return instance
+      const instance = this.createClassInstance<Entity<TDto>>(record)
+      return instance.toJSON(true)
     })
-
-    // Not send instances
-    // const instances = result.map((record) => {
-    //   const instance = this.createClassInstance(record)
-    //   return instance
-    // })
 
     return {
       data,
@@ -85,8 +79,8 @@ export abstract class MongooseRepository<T extends Entity, TDto>
 
   async update(id: string, entity: Entity): Promise<T | null> {
     await this.connect()
-    const update = { ...entity.toJSON(), updatedAt: new Date().toISOString() }
-    const result = await this._model.findOneAndUpdate({ id }, update, {
+    const update = this.serialize(entity)
+    const result = await this._model.findOneAndUpdate({ _id: id }, update, {
       new: true,
     })
     if (!result) return null
@@ -97,12 +91,17 @@ export abstract class MongooseRepository<T extends Entity, TDto>
     return instance
   }
 
-  protected createClassInstance(record: any): any {
-    const instance = Activator.instantiateAs<T>(
+  protected createClassInstance<T = unknown>(record: any) {
+    const instance = Activator.instantiateAs<Entity<T>>(
       this._entityClass,
       this.deserialize(record),
     )
-    return instance
+    return instance as T
+  }
+
+  protected serialize(record: any): any {
+    const { id: _id, ...rest } = record.toJSON()
+    return { _id, ...rest }
   }
 
   protected deserialize(record: any): any {

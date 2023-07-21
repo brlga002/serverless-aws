@@ -9,9 +9,11 @@ export function createMongooseSchema<TEntitySchema>(
   >,
 ): Schema {
   return new Schema({
-    id: { type: String },
+    id: { type: Schema.Types.ObjectId },
     createdAt: { type: String },
+    createdBy: { type: Schema.Types.ObjectId },
     updatedAt: { type: String },
+    updatedBy: { type: Schema.Types.ObjectId },
     ...fields,
   })
 }
