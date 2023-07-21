@@ -1,7 +1,7 @@
-import { nanoid } from 'nanoid'
 import { z } from 'zod'
 
 import { Either, left, right } from '0-core/domain/result/Either'
+import { makeId } from '0-core/shared/makeId'
 
 export const entityProps = {
   id: z.string(),
@@ -25,7 +25,7 @@ export abstract class Entity<T = unknown> {
 
   protected constructor(props: T & EntityDto) {
     this.props = props
-    this.id = props.id ?? nanoid()
+    this.id = props.id ?? makeId()
     this.createdAt = props.createdAt ?? new Date().toISOString()
     this.createdBy = props.createdBy
     this.updatedAt = props.updatedAt ?? null
@@ -40,18 +40,18 @@ export abstract class Entity<T = unknown> {
     this._props = value
   }
 
-  toJSON(): T & EntityDto {
+  toJSON(hideSensitiveFields = false): T & EntityDto {
     return {
       id: this.id,
-      ...this.exportFields(),
+      ...this.exportFields(hideSensitiveFields),
       createdAt: this.createdAt,
       createdBy: this.createdBy,
       updatedAt: this.updatedAt,
-      updatedBy: this.updatedAt,
+      updatedBy: this.updatedBy,
     } as T & EntityDto
   }
 
-  abstract exportFields(): Omit<T, keyof EntityDto>
+  abstract exportFields(hideSensitiveFields: boolean): Omit<T, keyof EntityDto>
 
   selfValidateEntity<TOutput>(schema: z.ZodType): Either<Error, TOutput> {
     const validateEntity = schema.safeParse(this.toJSON())
