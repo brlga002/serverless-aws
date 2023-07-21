@@ -41,6 +41,6 @@ export class CreateTenantUseCase implements CreateUseCase<TenantDto> {
     const newTenant = result.value
     await this.tenantsRepository.create(newTenant)
 
-    return right(ApplicationResult.created(newTenant.toJSON()))
+    return right(ApplicationResult.created(newTenant))
   }
 }
