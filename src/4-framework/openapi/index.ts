@@ -29,9 +29,6 @@ function run() {
 
     writeFile('openapi.json', ts, 'swagger')
   } catch (error) {
-    console.error(error)
-  } finally {
-    console.info('Finished.')
   }
 }
 
