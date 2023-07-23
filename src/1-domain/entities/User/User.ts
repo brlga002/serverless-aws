@@ -77,6 +77,8 @@ export class UserEntity extends Entity<UserDto> {
     return {
       name: this.props.name,
       email: this.props.email,
+      tenantId: this.props.tenantId,
+      role: this.props.role,
       ...(!hideSensitiveFields && { password: this.props.password }),
     } as Omit<UserDto, keyof EntityDto>
   }

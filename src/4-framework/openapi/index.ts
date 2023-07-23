@@ -15,23 +15,20 @@ function run() {
       openapi: '3.0.0',
       info: {
         version: '1.0.1',
-        title: 'Karhub',
-        description: 'Karhub | Desafio Backend.',
+        title: 'Pmoc',
+        description: 'Pmoc',
       },
       servers: [
         {
           description: 'local',
-          url: '{{ API_URL }}',
+          url: process.env.API_URL ?? ' ',
         },
       ],
       security: SECURITY,
     })
 
-    writeFile('openapi.json', ts, 'src/4-framework/openapi/swagger')
+    writeFile('openapi.json', ts, 'swagger')
   } catch (error) {
-    console.error(error)
-  } finally {
-    console.info('Finished.')
   }
 }
 

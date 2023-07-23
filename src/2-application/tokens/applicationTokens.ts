@@ -5,18 +5,6 @@ const AUTH_TOKENS = {
   UpdateUserPasswordUseCase: Symbol.for('UpdateUserPasswordUseCase'),
 }
 
-const BEERS_TOKENS = {
-  BeersRepository: Symbol.for('BeersRepository'),
-  ListBeersUseCase: Symbol.for('ListBeersUseCase'),
-  GetBeerUseCase: Symbol.for('GetBeerUseCase'),
-  UpdateBeerUseCase: Symbol.for('UpdateBeerUseCase'),
-  DeleteBeerUseCase: Symbol.for('DeleteBeerUseCase'),
-  CreateBeerUseCase: Symbol.for('CreateBeerUseCase'),
-  FindBeerStyleAndPlaylistUseCase: Symbol.for(
-    'FindBeerStyleAndPlaylistUseCase',
-  ),
-}
-
 const USERS_TOKENS = {
   UsersRepository: Symbol.for('UsersRepository'),
   ListUsersUseCase: Symbol.for('ListUsersUseCase'),
@@ -38,7 +26,6 @@ const TENANTS_TOKENS = {
 export const APPLICATION_TOKENS = {
   ...DOMAIN_TOKENS,
   ...AUTH_TOKENS,
-  ...BEERS_TOKENS,
   ...USERS_TOKENS,
   ...TENANTS_TOKENS,
 }

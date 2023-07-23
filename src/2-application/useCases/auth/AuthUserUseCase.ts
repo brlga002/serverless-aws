@@ -37,6 +37,8 @@ export class AuthUserUseCase
     const token = this.tokenService.sign({
       userId: user.props.id,
       name: user.props.name,
+      role: user.props.role,
+      tenantId: user.props.tenantId ?? 'TODO MASTER TENANT',
     })
 
     if (token.isLeft())

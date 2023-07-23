@@ -1,0 +1,11 @@
+{
+  "search.exclude": {
+    "**/.sst": true
+  },
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#ff3838b2",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "#ff383885"
+  },
+  "window.title": "PMOC - BACK",
+}
