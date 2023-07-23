@@ -10,7 +10,10 @@ export function SwaggerStack({ stack }: StackContext) {
     dev: {
       deploy: true,
     },
-    buildCommand: 'npm run openapi',
+    buildCommand: 'pnpm run openapi',
+    environment: {
+      API_URL: api.url,
+    },
     replaceValues: [
       {
         files: '*.json',

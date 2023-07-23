@@ -1,6 +1,5 @@
-import { z } from 'zod'
-
 import { authUserSchema } from '3-interfaces/validators/ValidateUserRequest'
+import { z } from 'zod'
 
 import { registry } from '../registry'
 import { createEntityPath } from '../utils/createEntityPath'

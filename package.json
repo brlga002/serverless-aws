@@ -10,10 +10,7 @@
     "remove": "sst remove",
     "console": "sst console",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
-    "openapi": "tsx src/4-framework/openapi/index.ts",
-    "openapi:watch": "tsx watch src/4-framework/openapi/index.ts",
-    "openapi-server": "http-server -p 9090 src/4-framework/openapi/swagger"
+    "test": "jest"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
@@ -28,7 +25,6 @@
     "dotenv": "^16.3.1",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
-    "http-server": "^14.1.1",
     "jest": "^29.6.1",
     "sst": "^2.13.6",
     "ts-jest": "^29.1.1",
@@ -36,7 +32,6 @@
     "typescript": "^5.1.3"
   },
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^5.3.0",
     "@middy/core": "^4.5.2",
     "@middy/http-header-normalizer": "^4.5.2",
     "@middy/http-json-body-parser": "^4.5.2",
@@ -50,5 +45,8 @@
     "mongoose": "^7.3.0",
     "reflect-metadata": "^0.1.13",
     "zod": "^3.21.4"
-  }
+  },
+  "workspaces": [
+    "src/4-framework/openapi/*"
+  ]
 }
